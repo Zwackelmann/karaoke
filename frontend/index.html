@@ -31,10 +31,8 @@
                     'success': function(songs) {
                         artistResultDiv.empty();
 
-                        if(!songs.isEmpty) {
+                        if(songs.length > 0) {
                             var numSongs = songs.length;
-                            var songParagraph = $("<p></p>");
-                            songParagraph.append("<h3>Song results</h3>");
                             for(var i=0; i<numSongs; i++) {
                                 var song = songs[i];
 
@@ -44,14 +42,13 @@
                                 songDl.append($("<dt>").append("song_name"));
                                 songDl.append($("<dd>").append(song["song_title"]));
 
-                                songParagraph.append(songDl);
+                                artistResultDiv.append(songDl);
 
                                 var chooseSongButton = $("<input type='button' />");
                                 chooseSongButton.click(querySongFun(song['song_id']));
                                 chooseSongButton.val("Ich w&auml;hle diesen!");
-                                songParagraph.append(chooseSongButton)
+                                artistResultDiv.append(chooseSongButton)
                             }
-                            artistResultDiv.append(songParagraph)
                         }
                     }
                 })
@@ -129,7 +126,7 @@
 
                                 textSearchResultDiv.empty();
 
-                                if (!artists.isEmpty) {
+                                if (artists.length > 0) {
                                     var numArtists = artists.length;
                                     var artistParagraph = $("<p></p>");
                                     artistParagraph.append("<h3>Artist results</h3>");
@@ -151,7 +148,7 @@
                                     textSearchResultDiv.append(artistParagraph)
                                 }
 
-                                if (!songs.isEmpty) {
+                                if (songs.length > 0) {
                                     var numSongs = songs.length;
                                     var songParagraph = $("<p></p>");
                                     songParagraph.append("<h3>Song results</h3>");
