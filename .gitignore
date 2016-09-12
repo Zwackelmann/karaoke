@@ -1,4 +1,4 @@
 .idea/
-aws-lambda.iml
-rds_config.pyc
+*.iml
+*.pyc
 data/

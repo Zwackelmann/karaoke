@@ -1,0 +1,199 @@
+<html>
+    <head>
+        <title>Karaoke</title>
+        <script type="text/javascript" src="jquery-3.1.0.min.js"></script>
+        <script type="text/javascript">
+            var textQueryUrl = "https://ck0at5btn3.execute-api.eu-central-1.amazonaws.com/prod/query/text";
+            var artistQueryUrl = "https://ck0at5btn3.execute-api.eu-central-1.amazonaws.com/prod/query/artist";
+            var songQueryUrl = "https://ck0at5btn3.execute-api.eu-central-1.amazonaws.com/prod/query/song";
+
+            var spotifyResultsLimit = 3;
+
+            var minWaitTime = 750; // min wait time between two text queries
+            var timeoutRunning = false; // if a request is pending right now
+            var lastRequestDate = 0; // last timestamp of sent request
+
+            function queryAuthorFun(artistId) {
+                return function() {
+                    queryAuthor(artistId)
+                }
+            }
+
+            function queryAuthor(artistId) {
+                var artistResultDiv = $('#artist_result');
+
+                $.ajax({
+                    'type': 'POST',
+                    'url': artistQueryUrl,
+                    'contentType': 'application/json',
+                    'data': JSON.stringify({'artist_id': artistId}),
+                    'dataType': 'json',
+                    'success': function(songs) {
+                        artistResultDiv.empty();
+
+                        if(!songs.isEmpty) {
+                            var numSongs = songs.length;
+                            var songParagraph = $("<p></p>");
+                            songParagraph.append("<h3>Song results</h3>");
+                            for(var i=0; i<numSongs; i++) {
+                                var song = songs[i];
+
+                                var songDl = $("<dl>");
+                                songDl.append($("<dt>").append("song_id"));
+                                songDl.append($("<dd>").append(song["song_id"]));
+                                songDl.append($("<dt>").append("song_name"));
+                                songDl.append($("<dd>").append(song["song_title"]));
+
+                                songParagraph.append(songDl);
+
+                                var chooseSongButton = $("<input type='button' />");
+                                chooseSongButton.click(querySongFun(song['song_id']));
+                                chooseSongButton.val("Ich w&auml;hle diesen!");
+                                songParagraph.append(chooseSongButton)
+                            }
+                            artistResultDiv.append(songParagraph)
+                        }
+                    }
+                })
+            }
+
+            function querySongFun(songId) {
+                return function() {
+                    querySong(songId)
+                }
+            }
+
+            function querySong(songId) {
+                var songResultDiv = $('#song_result');
+
+                $.ajax({
+                    'type': 'POST',
+                    'url': songQueryUrl,
+                    'contentType': 'application/json',
+                    'data': JSON.stringify({'song_id': songId, 'limit': spotifyResultsLimit}),
+                    'dataType': 'json',
+                    'success': function(results) {
+                        songResultDiv.empty();
+                        console.log(results);
+
+                        var numResults = results.length;
+                        for(var i=0; i<numResults; i++) {
+                            var result = results[i];
+
+                            var songDl = $("<dl>");
+                            songDl.append($("<dt>").append("artists"));
+                            songDl.append($("<dd>").append(result["artists"].join(", ")));
+                            songDl.append($("<dt>").append("song_name"));
+                            songDl.append($("<dd>").append(result["song_name"]));
+                            songDl.append($("<dt>").append("spotify_link"));
+                            songDl.append($("<dd>").append(result["spotify_link"]));
+                            songDl.append($("<dt>").append("preview_url"));
+                            songDl.append($("<dd>").append(result["preview_url"]));
+                            songDl.append($("<dt>").append("uri"));
+                            songDl.append($("<dd>").append(result["uri"]));
+                            songDl.append($("<dt>").append("duration"));
+                            songDl.append($("<dd>").append(result["duration"]));
+
+                            songResultDiv.append(songDl);
+                        }
+                    }
+                })
+            }
+
+            function queryText() {
+                var textQuery = $('#text_query_input').val();
+                if(textQuery.length < 3) {
+                    return
+                }
+
+                var textSearchResultDiv = $('#text_search_result');
+
+                if(!timeoutRunning) {
+                    var requestTimeDiff = Date.now()-lastRequestDate;
+                    var waitTime = Math.max(minWaitTime-requestTimeDiff, 1);
+                    lastRequestDate = Date.now();
+
+                    timeoutRunning = true;
+                    console.log("started timer");
+                    setTimeout(function () {
+                        timeoutRunning = false;
+                        $.ajax({
+                            'type': 'POST',
+                            'url': textQueryUrl,
+                            'contentType': 'application/json',
+                            'data': JSON.stringify({'q': textQuery}),
+                            'dataType': 'json',
+                            'success': function (data) {
+                                var artists = data['artists'];
+                                var songs = data['songs'];
+
+                                textSearchResultDiv.empty();
+
+                                if (!artists.isEmpty) {
+                                    var numArtists = artists.length;
+                                    var artistParagraph = $("<p></p>");
+                                    artistParagraph.append("<h3>Artist results</h3>");
+                                    for (var i = 0; i < numArtists; i++) {
+                                        var artist = artists[i];
+
+                                        var artistDl = $("<dl>");
+                                        artistDl.append($("<dt>").append("artist_id"));
+                                        artistDl.append($("<dd>").append(artist["artist_id"]));
+                                        artistDl.append($("<dt>").append("artist_name"));
+                                        artistDl.append($("<dd>").append(artist["artist_name"]));
+                                        artistParagraph.append(artistDl);
+
+                                        var chooseArtistButton = $("<input type='button' />");
+                                        chooseArtistButton.click(queryAuthorFun(artist['artist_id']));
+                                        chooseArtistButton.val("Ich w&auml;hle diesen!");
+                                        artistParagraph.append(chooseArtistButton)
+                                    }
+                                    textSearchResultDiv.append(artistParagraph)
+                                }
+
+                                if (!songs.isEmpty) {
+                                    var numSongs = songs.length;
+                                    var songParagraph = $("<p></p>");
+                                    songParagraph.append("<h3>Song results</h3>");
+                                    for (var i = 0; i < numSongs; i++) {
+                                        var song = songs[i];
+
+                                        var songDl = $("<dl>");
+                                        songDl.append($("<dt>").append("artist_id"));
+                                        songDl.append($("<dd>").append(song["artist_id"]));
+                                        songDl.append($("<dt>").append("artist_name"));
+                                        songDl.append($("<dd>").append(song["artist_name"]));
+                                        songDl.append($("<dt>").append("song_id"));
+                                        songDl.append($("<dd>").append(song["song_id"]));
+                                        songDl.append($("<dt>").append("song_name"));
+                                        songDl.append($("<dd>").append(song["song_title"]));
+
+                                        songParagraph.append(songDl);
+
+                                        var chooseSongButton = $("<input type='button' />");
+                                        chooseSongButton.click(querySongFun(song['song_id']));
+                                        chooseSongButton.val("Ich w&auml;hle diesen!");
+                                        songParagraph.append(chooseSongButton)
+                                    }
+                                    textSearchResultDiv.append(songParagraph)
+                                }
+                            }
+                        })
+                    }, waitTime)
+                }
+            }
+        </script>
+    </head>
+
+    <body bgcolor="#00008b">
+        <h1 style="color: #ffff00">Karaoke Yay!</h1>
+        <span style="color: #ff0000">Such etwas!</span> <input oninput="queryText()" type="text" id="text_query_input" />
+        <input type="button" value="Los!" onclick="alert('Hallo!')"/>
+        <h2>Text Search Result</h2>
+        <div id="text_search_result"></div>
+        <h2>Artist Result</h2>
+        <div id="artist_result"></div>
+        <h2>Song Result</h2>
+        <div id="song_result"></div>
+    </body>
+</html>
