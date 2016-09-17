@@ -2,3 +2,5 @@
 *.iml
 *.pyc
 data/
+rds_config.py
+rds_config.pyc
