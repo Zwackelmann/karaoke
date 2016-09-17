@@ -51,8 +51,8 @@ except psycopg2.Error as e:
     sys.exit()
 
 
-def handler(context, event):
-    cur.execute("""EXECUTE text_query(%s)""", (context['q'],))
+def handler(event, context):
+    cur.execute("""EXECUTE text_query(%s)""", (event['q'],))
 
     artists = []
     songs = []

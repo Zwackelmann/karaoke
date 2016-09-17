@@ -26,8 +26,8 @@ except psycopg2.Error as e:
     sys.exit()
 
 
-def handler(context, event):
-    artist_id = context.get('artist_id', None)
+def handler(event, context):
+    artist_id = event.get('artist_id', None)
 
     songs = []
     if artist_id is not None:

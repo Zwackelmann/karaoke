@@ -76,10 +76,9 @@ extractors = {
 sp = spotipy.Spotify()
 
 
-def handler(context, event):
-    print "handler", context
-    limit = context.get('limit', 5)
-    song_id = context.get('song_id', None)
+def handler(event, context):
+    limit = event.get('limit', 5)
+    song_id = event.get('song_id', None)
 
     item_info = []
     if song_id is not None:
