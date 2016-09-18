@@ -1,7 +1,7 @@
 <html>
     <head>
         <title>Karaoke</title>
-        <script type="text/javascript" src="../js/jquery-3.1.0.min.js"></script>
+        <script type="text/javascript" src="/prod/static/js/jquery-3.1.0.min.js"></script>
         <script type="text/javascript">
             var textQueryUrl = "https://ck0at5btn3.execute-api.eu-central-1.amazonaws.com/prod/query/text";
             var artistQueryUrl = "https://ck0at5btn3.execute-api.eu-central-1.amazonaws.com/prod/query/artist";
@@ -29,6 +29,10 @@
                     'data': JSON.stringify({'artist_id': artist['id']}),
                     'dataType': 'json',
                     'success': function(songs) {
+                        $("#text_search_result").hide();
+                        $("#artist_result").show();
+                        $("#song_result").hide();
+
                         artistResultDiv.empty();
 
                         if(songs.length > 0) {
@@ -62,28 +66,26 @@
                     'data': JSON.stringify({'song_id': songId, 'limit': spotifyResultsLimit}),
                     'dataType': 'json',
                     'success': function(results) {
+                        $("#text_search_result").hide();
+                        $("#artist_result").hide();
+                        $("#song_result").show();
+
                         songResultDiv.empty();
-                        console.log(results);
 
                         var numResults = results.length;
                         for(var i=0; i<numResults; i++) {
                             var result = results[i];
 
-                            var songDl = $("<dl>");
-                            songDl.append($("<dt>").append("artists"));
-                            songDl.append($("<dd>").append(result["artists"].join(", ")));
-                            songDl.append($("<dt>").append("song_name"));
-                            songDl.append($("<dd>").append(result["song_name"]));
-                            songDl.append($("<dt>").append("spotify_link"));
-                            songDl.append($("<dd>").append(result["spotify_link"]));
-                            songDl.append($("<dt>").append("preview_url"));
-                            songDl.append($("<dd>").append(result["preview_url"]));
-                            songDl.append($("<dt>").append("uri"));
-                            songDl.append($("<dd>").append(result["uri"]));
-                            songDl.append($("<dt>").append("duration"));
-                            songDl.append($("<dd>").append(result["duration"]));
+                            var songButton = $("<div class='result_item'>");
+                            var songLink = $("<a>");
+                            songLink.attr("href", result["spotify_link"]);
+                            songLink.append($("<p class='song_title'>").append(result["song_name"]));
+                            songLink.append($("<p class='song_artist'>").append(result["artists"].join(", ")));
+                            songButton.append(songLink);
 
-                            songResultDiv.append(songDl);
+                            var previewElem = $("<audio preload='auto' controls></audio>").attr("src", result["preview_url"]);
+                            songButton.append(previewElem);
+                            songResultDiv.append(songButton);
                         }
                     }
                 })
@@ -112,6 +114,10 @@
                             'data': JSON.stringify({'q': textQuery}),
                             'dataType': 'json',
                             'success': function (data) {
+                                $("#text_search_result").show();
+                                $("#artist_result").hide();
+                                $("#song_result").hide();
+
                                 var artists = data['artists'];
                                 var songs = data['songs'];
 
@@ -197,11 +203,8 @@
     <body>
         <h1>Karaoke Yay!</h1>
         <input oninput="queryText()" type="text" id="text_query_input" />
-        <h2>Text Search Result</h2>
         <div id="text_search_result"></div>
-        <h2>Artist Result</h2>
         <div id="artist_result"></div>
-        <h2>Song Result</h2>
         <div id="song_result"></div>
     </body>
 </html>
