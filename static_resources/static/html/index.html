@@ -1,7 +1,7 @@
 <html>
     <head>
         <title>Karaoke</title>
-        <script type="text/javascript" src="/prod/static/js/jquery-3.1.0.min.js"></script>
+        <script type="text/javascript" src="../js/jquery-3.1.0.min.js"></script>
         <script type="text/javascript">
             var textQueryUrl = "https://ck0at5btn3.execute-api.eu-central-1.amazonaws.com/prod/query/text";
             var artistQueryUrl = "https://ck0at5btn3.execute-api.eu-central-1.amazonaws.com/prod/query/artist";
@@ -13,20 +13,20 @@
             var timeoutRunning = false; // if a request is pending right now
             var lastRequestDate = 0; // last timestamp of sent request
 
-            function queryAuthorFun(artistId) {
+            function queryAuthorFun(artist) {
                 return function() {
-                    queryAuthor(artistId)
+                    queryAuthor(artist)
                 }
             }
 
-            function queryAuthor(artistId) {
+            function queryAuthor(artist) {
                 var artistResultDiv = $('#artist_result');
 
                 $.ajax({
                     'type': 'POST',
                     'url': artistQueryUrl,
                     'contentType': 'application/json',
-                    'data': JSON.stringify({'artist_id': artistId}),
+                    'data': JSON.stringify({'artist_id': artist['id']}),
                     'dataType': 'json',
                     'success': function(songs) {
                         artistResultDiv.empty();
@@ -35,19 +35,11 @@
                             var numSongs = songs.length;
                             for(var i=0; i<numSongs; i++) {
                                 var song = songs[i];
-
-                                var songDl = $("<dl>");
-                                songDl.append($("<dt>").append("song_id"));
-                                songDl.append($("<dd>").append(song["song_id"]));
-                                songDl.append($("<dt>").append("song_name"));
-                                songDl.append($("<dd>").append(song["song_title"]));
-
-                                artistResultDiv.append(songDl);
-
-                                var chooseSongButton = $("<input type='button' />");
-                                chooseSongButton.click(querySongFun(song['song_id']));
-                                chooseSongButton.val("Ich w&auml;hle diesen!");
-                                artistResultDiv.append(chooseSongButton)
+                                var songButton = $("<button class='result_item'>");
+                                songButton.append($("<p class='song_title'>").append(song["song_title"]));
+                                songButton.append($("<p class='song_artist'>").append(artist["name"]));
+                                songButton.click(querySongFun(song['song_id']));
+                                artistResultDiv.append(songButton);
                             }
                         }
                     }
@@ -132,17 +124,10 @@
                                     for (var i = 0; i < numArtists; i++) {
                                         var artist = artists[i];
 
-                                        var artistDl = $("<dl>");
-                                        artistDl.append($("<dt>").append("artist_id"));
-                                        artistDl.append($("<dd>").append(artist["artist_id"]));
-                                        artistDl.append($("<dt>").append("artist_name"));
-                                        artistDl.append($("<dd>").append(artist["artist_name"]));
-                                        artistParagraph.append(artistDl);
-
-                                        var chooseArtistButton = $("<input type='button' />");
-                                        chooseArtistButton.click(queryAuthorFun(artist['artist_id']));
-                                        chooseArtistButton.val("Ich w&auml;hle diesen!");
-                                        artistParagraph.append(chooseArtistButton)
+                                        var artistButton = $("<button class='result_item'>");
+                                        artistButton.append($("<p class='artist'>").append(artist["artist_name"]));
+                                        artistButton.click(queryAuthorFun({'id': artist['artist_id'], 'name': artist['artist_name']}));
+                                        artistParagraph.append(artistButton);
                                     }
                                     textSearchResultDiv.append(artistParagraph)
                                 }
@@ -154,22 +139,11 @@
                                     for (var i = 0; i < numSongs; i++) {
                                         var song = songs[i];
 
-                                        var songDl = $("<dl>");
-                                        songDl.append($("<dt>").append("artist_id"));
-                                        songDl.append($("<dd>").append(song["artist_id"]));
-                                        songDl.append($("<dt>").append("artist_name"));
-                                        songDl.append($("<dd>").append(song["artist_name"]));
-                                        songDl.append($("<dt>").append("song_id"));
-                                        songDl.append($("<dd>").append(song["song_id"]));
-                                        songDl.append($("<dt>").append("song_name"));
-                                        songDl.append($("<dd>").append(song["song_title"]));
-
-                                        songParagraph.append(songDl);
-
-                                        var chooseSongButton = $("<input type='button' />");
-                                        chooseSongButton.click(querySongFun(song['song_id']));
-                                        chooseSongButton.val("Ich w&auml;hle diesen!");
-                                        songParagraph.append(chooseSongButton)
+                                        var songButton = $("<button class='result_item'>");
+                                        songButton.append($("<p class='song_title'>").append(song["song_title"]));
+                                        songButton.append($("<p class='song_artist'>").append(song["artist_name"]));
+                                        songButton.click(querySongFun(song['song_id']));
+                                        songParagraph.append(songButton);
                                     }
                                     textSearchResultDiv.append(songParagraph)
                                 }
@@ -179,12 +153,50 @@
                 }
             }
         </script>
+        <style>
+            @import url(https://fonts.googleapis.com/css?family=Raleway:400,600);
+            .result_item {
+                font-family: 'Raleway', Arial, sans-serif;
+                border: none;
+                background-color: #667273;
+                border-radius: 3px;
+                color: #ffffff;
+                cursor: pointer;
+                padding: 0px 40px;
+                display: inline-block;
+                margin: 15px 30px;
+                text-transform: uppercase;
+                line-height: 2.7em;
+                font-weight: 600;
+                outline: none;
+                position: relative;
+                -webkit-transition: all 0.3s;
+                transition: all 0.3s;
+            }
+            .song_artist {
+                padding: 0 0;
+                margin: 0 0;
+                font-weight: 300;
+                font-size: 0.75em;
+            }
+            .song_title {
+                padding: 0 0;
+                margin: 0 0;
+                font-weight: 600;
+                font-size: 1.0em;
+            }
+            .artist {
+                padding: 0 0;
+                margin: 0 0;
+                font-weight: 600;
+                font-size: 1.0em;
+            }
+        </style>
     </head>
 
-    <body bgcolor="#00008b">
-        <h1 style="color: #ffff00">Karaoke Yay!</h1>
-        <span style="color: #ff0000">Such etwas!</span> <input oninput="queryText()" type="text" id="text_query_input" />
-        <input type="button" value="Los!" onclick="alert('Hallo!')"/>
+    <body>
+        <h1>Karaoke Yay!</h1>
+        <input oninput="queryText()" type="text" id="text_query_input" />
         <h2>Text Search Result</h2>
         <div id="text_search_result"></div>
         <h2>Artist Result</h2>
