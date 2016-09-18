@@ -1,0 +1,27 @@
+{
+  "name": "karaoke",
+  "homepage": "https://github.com/Zwackelmann/karaoke",
+  "authors": [
+    "Zwackelmann",
+    "augenauf"
+  ],
+  "description": "A searching Webapp for Songs and Artists.",
+  "main": "index.html",
+  "keywords": [
+    "karaoke",
+    "search",
+    "songs",
+    "artis"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "uikit": "^2.27.1"
+  }
+}
