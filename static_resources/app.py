@@ -8,7 +8,7 @@ def handler(event, context):
         raise Exception("Bad Request: no 'request_type' submitted")
 
     request_type = event['request_type']
-    if request_type not in {'js', 'html'}:
+    if request_type not in {'js', 'html', 'css', 'img'}:
         raise Exception("Bad Request: request type '%s' is not valid" % (request_type, ))
 
     requested_file = event['requested_file']
