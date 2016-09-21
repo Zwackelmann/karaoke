@@ -1,17 +1,38 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <title>Karaoke</title>
-        <script type="text/javascript" src="/prod/static/js/jquery-3.1.0.min.js"></script>
-        <script type="text/javascript" src="/prod/static/js/karaoke.js"></script>
-        <link rel="stylesheet" type="text/css" href="/prod/static/css/style.css" />
-    </head>
-    <body>
-        <h1>Karaoke Yay!</h1>
-        <img alt="Music!" src="/prod/static/img/music-player.svg" width="100">
-        <input oninput="queryText()" type="text" id="text_query_input" />
-        <div id="text_search_result"></div>
-        <div id="artist_result"></div>
-        <div id="song_result"></div>
-    </body>
+<html lang="de" class="uk-height-1-1 uk-notouch">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
+    <link rel="apple-touch-icon-precomposed" href="images/apple-touch-icon.png">
+    <title>Karaoke</title>
+    <script type="text/javascript" src="../js/jquery-3.1.0.min.js"></script>
+    <script type="text/javascript" src="../js/karaoke.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/playback_style.css" />
+</head>
+
+<body class="uk-height-1-1">
+    <div class="uk-vertical-align uk-text-center uk-height-1-1 pb-center-page">
+        <div class="uk-vertical-align-middle">
+            <div class="uk-grid">
+                <div class="uk-width-1-1">
+                    <h1>Karaoke Yay!</h1>
+                    <img alt="Music!" src="../img/music-player.svg" width="100">
+                    <input oninput="queryText()" type="text" id="text_query_input" />
+                </div>
+                <div class="uk-width-1-1">
+                    <div id="text_search_result"></div>
+                </div>
+                <div class="uk-width-1-1">
+                    <div id="artist_result"></div>
+                </div>
+                <div class="uk-width-1-1">
+                    <div id="song_result"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
 </html>
