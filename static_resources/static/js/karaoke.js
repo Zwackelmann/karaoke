@@ -24,10 +24,9 @@ function queryAuthor(artist) {
         'data': JSON.stringify({'artist_id': artist['id']}),
         'dataType': 'json',
         'success': function(songs) {
-            $("#text_search_result").hide();
-            $("#artist_result").show();
-            $("#song_result").hide();
-
+            if(location.hash != "#artist_result") {
+                location.hash = "#artist_result";
+            }
             artistResultDiv.empty();
 
             if(songs.length > 0) {
@@ -61,9 +60,9 @@ function querySong(songId) {
         'data': JSON.stringify({'song_id': songId, 'limit': spotifyResultsLimit}),
         'dataType': 'json',
         'success': function(results) {
-            $("#text_search_result").hide();
-            $("#artist_result").hide();
-            $("#song_result").show();
+            if(location.hash != "#song_result") {
+                location.hash = "#song_result";
+            }
 
             songResultDiv.empty();
 
@@ -109,9 +108,10 @@ function queryText() {
                 'data': JSON.stringify({'q': textQuery}),
                 'dataType': 'json',
                 'success': function (data) {
-                    $("#text_search_result").show();
-                    $("#artist_result").hide();
-                    $("#song_result").hide();
+                    if(location.hash != "#text_search_result") {
+                        location.hash = "#text_search_result";
+                        $("#text_query_input").focus();
+                    }
 
                     var artists = data['artists'];
                     var songs = data['songs'];

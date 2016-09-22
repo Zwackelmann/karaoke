@@ -7,9 +7,23 @@
     <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
     <link rel="apple-touch-icon-precomposed" href="images/apple-touch-icon.png">
     <title>Karaoke</title>
-    <script type="text/javascript" src="../js/jquery-3.1.0.min.js"></script>
-    <script type="text/javascript" src="../js/karaoke.js"></script>
-    <link rel="stylesheet" type="text/css" href="../css/playback_style.css" />
+    <script type="text/javascript" src="/prod/static/js/jquery-3.1.0.min.js"></script>
+    <script type="text/javascript" src="/prod/static/js/karaoke.js"></script>
+    <link rel="stylesheet" type="text/css" href="/prod/static/css/playback_style.css" />
+    <style>
+        #text_search_result, #artist_result, #song_result {
+            display:none;
+        }
+        #text_search_result:target{
+            display:block;
+        }
+        #artist_result:target{
+            display:block;
+        }
+        #song_result:target{
+            display:block;
+        }
+    </style>
 </head>
 
 <body class="uk-height-1-1">
@@ -18,7 +32,7 @@
             <div class="uk-grid">
                 <div class="uk-width-1-1">
                     <h1>Karaoke Yay!</h1>
-                    <img alt="Music!" src="../img/music-player.svg" width="100">
+                    <img alt="Music!" src="/prod/static/img/music-player.svg" width="100">
                     <input oninput="queryText()" type="text" id="text_query_input" />
                 </div>
                 <div class="uk-width-1-1">
