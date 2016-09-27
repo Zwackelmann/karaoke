@@ -1,12 +1,16 @@
 var textQueryUrl = "https://ck0at5btn3.execute-api.eu-central-1.amazonaws.com/prod/query/text";
 var artistQueryUrl = "https://ck0at5btn3.execute-api.eu-central-1.amazonaws.com/prod/query/artist";
 var songQueryUrl = "https://ck0at5btn3.execute-api.eu-central-1.amazonaws.com/prod/query/song";
+var randomArtistsQuery = "https://ck0at5btn3.execute-api.eu-central-1.amazonaws.com/prod/query/browse";
 
 var spotifyResultsLimit = 3;
 
 var minWaitTime = 750; // min wait time between two text queries
 var timeoutRunning = false; // if a request is pending right now
 var lastRequestDate = 0; // last timestamp of sent request
+
+var randomSeed = Math.round(Math.random()*Math.pow(2,31))
+var offset = -3
 
 function queryAuthorFun(artist) {
     return function() {
@@ -152,4 +156,45 @@ function queryText() {
             })
         }, waitTime)
     }
+}
+
+function random_artists() {
+    randomSeed = Math.round(Math.random()*Math.pow(2,31))
+    offset = 0
+    update_random_artist_panel()
+}
+
+function change_artist_offset(offset_change) {
+    offset += offset_change
+    update_random_artist_panel()
+}
+
+function update_random_artist_panel() {
+    $.ajax({
+        'type': 'GET',
+        'url': randomArtistsQuery,
+        'contentType': 'application/json',
+        'data': $.param({"seed": randomSeed, "offset": offset}),
+        'dataType': 'json',
+        'success': function(res) {
+            artists = res['artists']
+            if(location.hash != "#random_artists") {
+                location.hash = "#random_artists";
+            }
+            var randomArtistsDiv = $('#random_artist_list');
+            randomArtistsDiv.empty();
+
+            $('#text_query_input').val("")
+
+            var numArtists = artists.length
+            for(var i=0; i<numArtists; i++) {
+                var artist = artists[i];
+
+                var artistButton = $("<button class='result_item'>");
+                artistButton.append($("<p class='artist'>").append(artist["artist_name"]));
+                artistButton.click(queryAuthorFun({'id': artist['artist_id'], 'name': artist['artist_name']}));
+                randomArtistsDiv.append(artistButton);
+            }
+        }
+    })
 }

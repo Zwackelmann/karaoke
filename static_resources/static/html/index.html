@@ -11,7 +11,7 @@
     <script type="text/javascript" src="/prod/static/js/karaoke.js"></script>
     <link rel="stylesheet" type="text/css" href="/prod/static/css/playback_style.css" />
     <style>
-        #text_search_result, #artist_result, #song_result {
+        #text_search_result, #artist_result, #song_result, #random_artists{
             display:none;
         }
         #text_search_result:target{
@@ -21,6 +21,9 @@
             display:block;
         }
         #song_result:target{
+            display:block;
+        }
+        #random_artists:target{
             display:block;
         }
     </style>
@@ -34,6 +37,7 @@
                     <h1>Karaoke Yay!</h1>
                     <img alt="Music!" src="/prod/static/img/music-player.svg" width="100">
                     <input oninput="queryText()" type="text" id="text_query_input" />
+                    <button onclick="random_artists()">Being lucky</button>
                 </div>
                 <div class="uk-width-1-1">
                     <div id="text_search_result"></div>
@@ -43,6 +47,15 @@
                 </div>
                 <div class="uk-width-1-1">
                     <div id="song_result"></div>
+                </div>
+                <div class="uk-width-1-1">
+                    <div id="random_artists">
+                        <div id="random_artist_list"></div>
+                        <div>
+                            <button onclick="change_artist_offset(-3)">prev</button>
+                            <button onclick="change_artist_offset(3)">next</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
