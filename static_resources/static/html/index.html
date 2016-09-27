@@ -3,7 +3,8 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+    <meta name="format-detection" content="telephone=no">
     <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
     <link rel="apple-touch-icon-precomposed" href="images/apple-touch-icon.png">
     <title>Karaoke</title>
@@ -30,31 +31,29 @@
 </head>
 
 <body class="uk-height-1-1">
-    <div class="uk-vertical-align uk-text-center uk-height-1-1 pb-center-page">
-        <div class="uk-vertical-align-middle">
-            <div class="uk-grid">
-                <div class="uk-width-1-1">
-                    <h1>Karaoke Yay!</h1>
-                    <img alt="Music!" src="/prod/static/img/music-player.svg" width="100">
-                    <input oninput="queryText()" type="text" id="text_query_input" />
+    <div class="uk-text-center uk-height-1-1">
+        <div class="uk-grid uk-container" data-uk-grid-margin>
+            <div class="uk-width-1-1">
+                <form class="uk-form">
+                    <input class="uk-width-1-1 uk-form-large-top" oninput="queryText()" type="text" id="text_query_input" />
                     <button onclick="random_artists()">Being lucky</button>
-                </div>
-                <div class="uk-width-1-1">
-                    <div id="text_search_result"></div>
-                </div>
-                <div class="uk-width-1-1">
-                    <div id="artist_result"></div>
-                </div>
-                <div class="uk-width-1-1">
-                    <div id="song_result"></div>
-                </div>
-                <div class="uk-width-1-1">
-                    <div id="random_artists">
-                        <div id="random_artist_list"></div>
-                        <div>
-                            <button onclick="change_artist_offset(-3)">prev</button>
-                            <button onclick="change_artist_offset(3)">next</button>
-                        </div>
+                </form>
+            </div>
+            <div class="uk-width-1-1 uk-margin-large-top pb-search-site">
+                <div id="text_search_result"></div>
+            </div>
+            <div class="uk-width-1-1 uk-margin-large-top">
+                <div id="artist_result"></div>
+            </div>
+            <div class="uk-width-1-1 uk-margin-large-top">
+                <div id="song_result"></div>
+            </div>
+            <div class="uk-width-1-1">
+                <div id="random_artists">
+                    <div id="random_artist_list"></div>
+                    <div>
+                        <button onclick="change_artist_offset(-3)">prev</button>
+                        <button onclick="change_artist_offset(3)">next</button>
                     </div>
                 </div>
             </div>

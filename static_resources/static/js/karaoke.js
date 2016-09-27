@@ -25,21 +25,23 @@ function queryAuthor(artist) {
         'type': 'POST',
         'url': artistQueryUrl,
         'contentType': 'application/json',
-        'data': JSON.stringify({'artist_id': artist['id']}),
+        'data': JSON.stringify({
+            'artist_id': artist['id']
+        }),
         'dataType': 'json',
         'success': function(songs) {
-            if(location.hash != "#artist_result") {
+            if (location.hash != "#artist_result") {
                 location.hash = "#artist_result";
             }
             artistResultDiv.empty();
 
-            if(songs.length > 0) {
+            if (songs.length > 0) {
                 var numSongs = songs.length;
-                for(var i=0; i<numSongs; i++) {
+                for (var i = 0; i < numSongs; i++) {
                     var song = songs[i];
-                    var songButton = $("<button class='result_item'>");
-                    songButton.append($("<p class='song_title'>").append(song["song_title"]));
-                    songButton.append($("<p class='song_artist'>").append(artist["name"]));
+                    var songButton = $("<button class='uk-button pb-result-item'>");
+                    songButton.append($("<span class='song_title'>").append(song["song_title"]));
+                    songButton.append($("<span class='song_artist'>").append(artist["name"]));
                     songButton.click(querySongFun(song['song_id']));
                     artistResultDiv.append(songButton);
                 }
@@ -61,27 +63,31 @@ function querySong(songId) {
         'type': 'POST',
         'url': songQueryUrl,
         'contentType': 'application/json',
-        'data': JSON.stringify({'song_id': songId, 'limit': spotifyResultsLimit}),
+        'data': JSON.stringify({
+            'song_id': songId,
+            'limit': spotifyResultsLimit
+        }),
         'dataType': 'json',
         'success': function(results) {
-            if(location.hash != "#song_result") {
+            if (location.hash != "#song_result") {
                 location.hash = "#song_result";
             }
 
             songResultDiv.empty();
 
             var numResults = results.length;
-            for(var i=0; i<numResults; i++) {
+            for (var i = 0; i < numResults; i++) {
                 var result = results[i];
 
-                var songButton = $("<div class='result_item'>");
-                var songLink = $("<a>");
+                var songButton = $("<div>");
+                var songLink = $("<a class='uk-button pb-result-item-button'>");
                 songLink.attr("href", result["spotify_link"]);
-                songLink.append($("<p class='song_title'>").append(result["song_name"]));
-                songLink.append($("<p class='song_artist'>").append(result["artists"].join(", ")));
+                songLink.append($("<span class='song_title'>").append(result["song_name"]));
+                songLink.append($("<span class='song_artist'>").append(result["artists"].join(", ")));
                 songButton.append(songLink);
 
-                var previewElem = $("<audio preload='auto' controls></audio>").attr("src", result["preview_url"]);
+                var previewElem = $("<div class='pb-audio-control-container'>");
+                previewElem.append($("<audio id='audio' preload='auto' controls></audio>").attr("src", result["preview_url"]));
                 songButton.append(previewElem);
                 songResultDiv.append(songButton);
             }
@@ -91,28 +97,30 @@ function querySong(songId) {
 
 function queryText() {
     var textQuery = $('#text_query_input').val();
-    if(textQuery.length < 3) {
+    if (textQuery.length < 3) {
         return
     }
 
     var textSearchResultDiv = $('#text_search_result');
 
-    if(!timeoutRunning) {
-        var requestTimeDiff = Date.now()-lastRequestDate;
-        var waitTime = Math.max(minWaitTime-requestTimeDiff, 1);
+    if (!timeoutRunning) {
+        var requestTimeDiff = Date.now() - lastRequestDate;
+        var waitTime = Math.max(minWaitTime - requestTimeDiff, 1);
         lastRequestDate = Date.now();
 
         timeoutRunning = true;
-        setTimeout(function () {
+        setTimeout(function() {
             timeoutRunning = false;
             $.ajax({
                 'type': 'POST',
                 'url': textQueryUrl,
                 'contentType': 'application/json',
-                'data': JSON.stringify({'q': textQuery}),
+                'data': JSON.stringify({
+                    'q': textQuery
+                }),
                 'dataType': 'json',
-                'success': function (data) {
-                    if(location.hash != "#text_search_result") {
+                'success': function(data) {
+                    if (location.hash != "#text_search_result") {
                         location.hash = "#text_search_result";
                         $("#text_query_input").focus();
                     }
@@ -124,14 +132,17 @@ function queryText() {
 
                     if (artists.length > 0) {
                         var numArtists = artists.length;
-                        var artistParagraph = $("<p></p>");
+                        var artistParagraph = $("<span></span>");
                         artistParagraph.append("<h3>Artist results</h3>");
                         for (var i = 0; i < numArtists; i++) {
                             var artist = artists[i];
 
-                            var artistButton = $("<button class='result_item'>");
-                            artistButton.append($("<p class='artist'>").append(artist["artist_name"]));
-                            artistButton.click(queryAuthorFun({'id': artist['artist_id'], 'name': artist['artist_name']}));
+                            var artistButton = $("<button class='uk-button pb-result-item'>");
+                            artistButton.append($("<span class='artist'>").append(artist["artist_name"]));
+                            artistButton.click(queryAuthorFun({
+                                'id': artist['artist_id'],
+                                'name': artist['artist_name']
+                            }));
                             artistParagraph.append(artistButton);
                         }
                         textSearchResultDiv.append(artistParagraph)
@@ -139,14 +150,14 @@ function queryText() {
 
                     if (songs.length > 0) {
                         var numSongs = songs.length;
-                        var songParagraph = $("<p></p>");
+                        var songParagraph = $("<span></span>");
                         songParagraph.append("<h3>Song results</h3>");
                         for (var i = 0; i < numSongs; i++) {
                             var song = songs[i];
 
-                            var songButton = $("<button class='result_item'>");
-                            songButton.append($("<p class='song_title'>").append(song["song_title"]));
-                            songButton.append($("<p class='song_artist'>").append(song["artist_name"]));
+                            var songButton = $("<button class='uk-button pb-result-item'>");
+                            songButton.append($("<span class='song_title'>").append(song["song_title"]));
+                            songButton.append($("<span class='song_artist'>").append(song["artist_name"]));
                             songButton.click(querySongFun(song['song_id']));
                             songParagraph.append(songButton);
                         }
@@ -197,4 +208,15 @@ function update_random_artist_panel() {
             }
         }
     })
+}
+
+// Loop Attribute for ios
+function init() {
+    var myAudio = document.getElementById("audio");
+    myAudio.addEventListener('ended', loopAudio, false);
+}
+
+function loopAudio() {
+    var myAudio = document.getElementById("audio");
+    myAudio.play();
 }
