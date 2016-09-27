@@ -2,39 +2,43 @@
 body {
     font-family: 'Anonymous Pro', monospace;
 }
-.result_item {
-    font-family: 'Anonymous Pro', monospace;
-    border: none;
-    background-color: #667273;
-    border-radius: 3px;
-    color: #ffffff;
-    cursor: pointer;
-    padding: 0px 40px;
-    display: inline-block;
-    margin: 15px 30px;
-    text-transform: uppercase;
-    line-height: 2.7em;
-    font-weight: 600;
-    outline: none;
-    position: relative;
-    -webkit-transition: all 0.3s;
-    transition: all 0.3s;
+
+// Navigation, set div element hidden or visible
+#text_search_result, #artist_result, #song_result {
+    display:none;
 }
+#text_search_result:target{
+    display:block;
+}
+#artist_result:target{
+    display:block;
+}
+#song_result:target{
+    display:block;
+}
+
+// audio reset
+.pb-audio-control-container {
+    audio {
+        height: 64px;
+        padding: 4px;
+    }
+}
+
+.pb-result-item {
+
+}
+
+.pb-result-item-button {
+
+}
+
 .song_artist {
-    padding: 0 0;
-    margin: 0 0;
-    font-weight: 300;
-    font-size: 0.75em;
+
 }
 .song_title {
-    padding: 0 0;
-    margin: 0 0;
-    font-weight: 600;
-    font-size: 1.0em;
+
 }
 .artist {
-    padding: 0 0;
-    margin: 0 0;
-    font-weight: 600;
-    font-size: 1.0em;
+
 }
