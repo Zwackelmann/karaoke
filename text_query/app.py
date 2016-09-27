@@ -57,7 +57,6 @@ def handler(event, context):
     artists = []
     songs = []
     for row in cur.fetchall():
-        result_item = dict()
         item_type = row[4]
 
         if item_type == 'artist':
