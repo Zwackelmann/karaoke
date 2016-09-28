@@ -1,4 +1,28 @@
+// Colors
+$pb-color-main: #19035a;
+$pb-color-artist-site: #4916bf;
+$pb-color-song-site: #8cce0f;
+
+html {
+	// still
+	background-color: $pb-color-main;
+}
+
 .pb-main-container {
 	// grid and postion
 	max-width: 600px;
+}
+
+.pb-artist-column, .pb-song-column {
+	padding: 10px
+}
+
+.pb-artist-column {
+	//still
+	background-color: $pb-color-artist-site;
+}
+
+.pb-song-column {
+	//still
+	background-color: $pb-color-song-site;
 }

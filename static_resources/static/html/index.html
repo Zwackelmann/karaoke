@@ -17,7 +17,8 @@
         #text_search_result,
         #artist_result,
         #song_result,
-        #random_artists {
+        #random_artists,
+        #controlBtn {
             display: none;
         }
 
@@ -36,38 +37,35 @@
         #random_artists:target {
             display: block;
         }
+        #random_artists:target #controlBtn {
+            display: block;
+        }
     </style>
 </head>
 
 <body>
     <div class="uk-text-center uk-container-center pb-main-container">
-        <div class="uk-grid" data-uk-grid-margin>
-            <div class="uk-width-small-1-1">
-                <form class="uk-form">
-                    <input class="uk-width-1-1 uk-form-large-top" oninput="queryText()" type="text" id="text_query_input" />
+        <div class="uk-flex uk-flex-column">
+            <div class="uk-margin-bottom">
+                <form class="uk-form uk-margin-top uk-margin-bottom">
+                    <input type="search" class="uk-width-1-1" oninput="queryText()" type="text" id="text_query_input" />
                 </form>
-                <button onclick="random_artists()">Losgurken</button>
+                <button class="uk-button uk-width-1-1" onclick="random_artists()">Losgurken</button>
             </div>
-            <div class="uk-width-1-1 uk-margin-large-top">
-                <img alt="self-Logo" src="../img/Cucumber.svg" width="100">
-            </div>
-            <div class="uk-width-small-1-1 uk-margin-large-top pb-search-site">
-                <div id="text_search_result"></div>
-            </div>
-            <div class="uk-width-small-1-1 uk-margin-large-top">
-                <div id="artist_result"></div>
-            </div>
-            <div class="uk-width-small-1-1 uk-margin-large-top">
+                <div id="text_search_result" class=""></div>
+                <div id="artist_result" class=""></div>
+            <div class="">
                 <div id="song_result"></div>
             </div>
-            <div class="uk-width-small-1-1">
-                <div id="random_artists">
-                    <div id="random_artist_list"></div>
-                    <div>
-                        <button onclick="change_artist_offset(-3)">prev</button>
-                        <button onclick="change_artist_offset(3)">next</button>
-                    </div>
+            <div id="random_artists">
+                <div id="random_artist_list"></div>
+                <div id="controlBtn">
+                    <button class="uk-button" onclick="change_artist_offset(-3)">prev</button>
+                    <button class="uk-button" onclick="change_artist_offset(3)">next</button>
                 </div>
+            </div>
+            <div class="uk-margin-large-top">
+                <img alt="self-Logo" src="../img/Cucumber.svg" width="100">
             </div>
         </div>
     </div>
