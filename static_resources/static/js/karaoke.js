@@ -17,6 +17,9 @@ function queryAuthorFun(artist) {
         queryAuthor(artist)
     }
 }
+// simple as this!
+// NOTE: init() is implicitly called with the plugin
+$("#header").headroom();
 
 function queryAuthor(artist) {
     var artistResultDiv = $('#artist_result');
@@ -201,8 +204,8 @@ function update_random_artist_panel() {
             for(var i=0; i<numArtists; i++) {
                 var artist = artists[i];
 
-                var artistButton = $("<button class='result_item'>");
-                artistButton.append($("<p class='artist'>").append(artist["artist_name"]));
+                var artistButton = $("<button class='uk-button result_item'>");
+                artistButton.append($("<span class='artist'>").append(artist["artist_name"]));
                 artistButton.click(queryAuthorFun({'id': artist['artist_id'], 'name': artist['artist_name']}));
                 randomArtistsDiv.append(artistButton);
             }

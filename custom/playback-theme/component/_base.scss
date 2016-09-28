@@ -3,20 +3,6 @@ body {
     font-family: 'Anonymous Pro', monospace;
 }
 
-// Navigation, set div element hidden or visible
-#text_search_result, #artist_result, #song_result {
-    display:none;
-}
-#text_search_result:target{
-    display:block;
-}
-#artist_result:target{
-    display:block;
-}
-#song_result:target{
-    display:block;
-}
-
 // audio reset
 .pb-audio-control-container {
     audio {

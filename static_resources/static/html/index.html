@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="de" class="uk-height-1-1 uk-notouch">
+<html lang="de" class="uk-notouch">
 
 <head>
     <meta charset="utf-8">
@@ -8,9 +8,11 @@
     <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
     <link rel="apple-touch-icon-precomposed" href="images/apple-touch-icon.png">
     <title>Karaoke</title>
-    <script type="text/javascript" src="/prod/static/js/jquery-3.1.0.min.js"></script>
-    <script type="text/javascript" src="/prod/static/js/karaoke.js"></script>
-    <link rel="stylesheet" type="text/css" href="/prod/static/css/playback_style.css" />
+    <script type="text/javascript" src="../js/jquery-3.1.0.min.js"></script>
+    <script type="text/javascript" src="../js/headroom.min.js"></script>
+    <script type="text/javascript" src="../js/jQuery.headroom.min.js"></script>
+    <script type="text/javascript" src="../js/karaoke.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/playback_style.css" />
     <style>
         #text_search_result, #artist_result, #song_result, #random_artists{
             display:none;
@@ -30,25 +32,25 @@
     </style>
 </head>
 
-<body class="uk-height-1-1">
-    <div class="uk-text-center uk-height-1-1">
-        <div class="uk-grid uk-container" data-uk-grid-margin>
-            <div class="uk-width-1-1">
+<body>
+    <div class="uk-text-center uk-container-center pb-main-container">
+        <div class="uk-grid" data-uk-grid-margin>
+            <div id="header" class="uk-width-small-1-1">
                 <form class="uk-form">
                     <input class="uk-width-1-1 uk-form-large-top" oninput="queryText()" type="text" id="text_query_input" />
                     <button onclick="random_artists()">Being lucky</button>
                 </form>
             </div>
-            <div class="uk-width-1-1 uk-margin-large-top pb-search-site">
+            <div class="uk-width-small-1-1 uk-margin-large-top pb-search-site">
                 <div id="text_search_result"></div>
             </div>
-            <div class="uk-width-1-1 uk-margin-large-top">
+            <div class="uk-width-small-1-1 uk-margin-large-top">
                 <div id="artist_result"></div>
             </div>
-            <div class="uk-width-1-1 uk-margin-large-top">
+            <div class="uk-width-small-1-1 uk-margin-large-top">
                 <div id="song_result"></div>
             </div>
-            <div class="uk-width-1-1">
+            <div class="uk-width-small-1-1">
                 <div id="random_artists">
                     <div id="random_artist_list"></div>
                     <div>

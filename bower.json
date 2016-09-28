@@ -22,6 +22,7 @@
     "tests"
   ],
   "dependencies": {
-    "uikit": "^2.27.1"
+    "uikit": "^2.27.1",
+    "headroom.js": "https://unpkg.com/headroom.js/bower.zip"
   }
 }
