@@ -18,20 +18,18 @@ num_artists_fetch_interval = 60*60  # 1h
 last_fetched_num_artists = None
 num_artists = None
 
+num_random_artists = 3
+
 try:
     print "Connecting to PostgresDB"
     conn = psycopg2.connect(host=rds_host, port=port, user=db_username, password=db_password, database=db_name)
     print "Connected"
 
     cur = conn.cursor()
-    cur.execute("""PREPARE random_artists AS
-                   SELECT id, name FROM(
-                     (SELECT id, name FROM artist OFFSET $1 LIMIT 1) UNION ALL
-                     (SELECT id, name FROM artist OFFSET $2 LIMIT 1) UNION ALL
-                     (SELECT id, name FROM artist OFFSET $3 LIMIT 1)
-                   ) AS random_artists""")
 
-    print "prepared random_artists stmt"
+    sub_selects = ["SELECT id, name FROM artist OFFSET $%d LIMIT 1" % (i+1, ) for i in range(num_random_artists)]
+    united_sub_selects = " UNION ALL ".join(["(%s)" % (sel, ) for sel in sub_selects])
+    cur.execute("""PREPARE random_artists AS SELECT id, name FROM(%s) AS random_artists""" % united_sub_selects)
 
     cur.execute("""PREPARE count_artists AS SELECT COUNT(*) AS num_artists FROM artist""")
     print "prepared count_artists stmt"
@@ -44,6 +42,7 @@ def handler(event, _):
     global num_artists
     global last_fetched_num_artists
 
+    # fetch new number of artists one in a while (after `num_artists_fetch_interval` seconds)
     if last_fetched_num_artists is None or time.time() - last_fetched_num_artists > num_artists_fetch_interval:
         cur.execute("""EXECUTE count_artists""")
         for row in cur.fetchall():
@@ -59,10 +58,10 @@ def handler(event, _):
     artist_ord_list = list(xrange(num_artists))
     random.shuffle(artist_ord_list)
 
-    offsets = [(offset+i) % num_artists for i in range(3)]
+    offsets = [(offset+i) % num_artists for i in range(num_random_artists)]
     artist_query_ords = [artist_ord_list[o] for o in offsets]
 
-    cur.execute("""EXECUTE random_artists(%s, %s, %s)""", tuple(artist_query_ords))
+    cur.execute("EXECUTE random_artists(" + ", ".join(["%s"]*num_random_artists) + ")", tuple(artist_query_ords))
 
     artists = []
     for row in cur.fetchall():
@@ -71,4 +70,4 @@ def handler(event, _):
 
         artists.append({'artist_id': artist_id, 'artist_name': artist_name})
 
-    return {'artists': artists, 'seed': seed, 'next_offset': offset + 3}
+    return {'artists': artists, 'seed': seed, 'next_offset': offset + num_random_artists}
