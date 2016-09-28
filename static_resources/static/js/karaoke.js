@@ -17,9 +17,6 @@ function queryAuthorFun(artist) {
         queryAuthor(artist)
     }
 }
-// simple as this!
-// NOTE: init() is implicitly called with the plugin
-$("#header").headroom();
 
 function queryAuthor(artist) {
     var artistResultDiv = $('#artist_result');

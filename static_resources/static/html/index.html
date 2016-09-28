@@ -14,20 +14,27 @@
     <script type="text/javascript" src="../js/karaoke.js"></script>
     <link rel="stylesheet" type="text/css" href="../css/playback_style.css" />
     <style>
-        #text_search_result, #artist_result, #song_result, #random_artists{
-            display:none;
+        #text_search_result,
+        #artist_result,
+        #song_result,
+        #random_artists {
+            display: none;
         }
-        #text_search_result:target{
-            display:block;
+
+        #text_search_result:target {
+            display: block;
         }
-        #artist_result:target{
-            display:block;
+
+        #artist_result:target {
+            display: block;
         }
-        #song_result:target{
-            display:block;
+
+        #song_result:target {
+            display: block;
         }
-        #random_artists:target{
-            display:block;
+
+        #random_artists:target {
+            display: block;
         }
     </style>
 </head>
@@ -35,14 +42,14 @@
 <body>
     <div class="uk-text-center uk-container-center pb-main-container">
         <div class="uk-grid" data-uk-grid-margin>
-            <div id="header" class="uk-width-small-1-1">
+            <div class="uk-width-small-1-1">
                 <form class="uk-form">
                     <input class="uk-width-1-1 uk-form-large-top" oninput="queryText()" type="text" id="text_query_input" />
                 </form>
                 <button onclick="random_artists()">Losgurken</button>
             </div>
             <div class="uk-width-1-1 uk-margin-large-top">
-                <img alt="self-Logo" src="/prod/static/img/Cucumber.svg" width="100">
+                <img alt="self-Logo" src="../img/Cucumber.svg" width="100">
             </div>
             <div class="uk-width-small-1-1 uk-margin-large-top pb-search-site">
                 <div id="text_search_result"></div>
