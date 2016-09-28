@@ -42,7 +42,7 @@ function queryAuthor(artist) {
                 var numSongs = songs.length;
                 for (var i = 0; i < numSongs; i++) {
                     var song = songs[i];
-                    var songButton = $("<button class='uk-button pb-result-item'>");
+                    var songButton = $("<button class='uk-button uk-width-1-1'>");
                     songButton.append($("<span class='song_title'>").append(song["song_title"]));
                     songButton.click(querySongFun(song['song_id']));
                     artistResultDiv.append(songButton);
@@ -86,7 +86,7 @@ function querySong(songId) {
                 var result = results[i];
 
                 var songButton = $("<div>");
-                var songLink = $("<a class='uk-button pb-result-item-button'>");
+                var songLink = $("<a class='uk-button uk-width-1-1'>");
                 songLink.attr("href", result["spotify_link"]);
                 songLink.append($("<span class='song_title'>").append(result["song_name"]));
                 songLink.append($("<span class='song_artist'>").append(" (" + result["artists"].join(", ") + ")"));
@@ -142,12 +142,12 @@ function queryText() {
 
                     if (artists.length > 0) {
                         var numArtists = artists.length;
-                        var artistParagraph = $("<span></span>");
+                        var artistParagraph = $("<div class='pb-artist-column'></div>");
                         artistParagraph.append("<h3>Künstler</h3>");
                         for (var i = 0; i < numArtists; i++) {
                             var artist = artists[i];
 
-                            var artistButton = $("<button class='uk-button pb-result-item'>");
+                            var artistButton = $("<button class='uk-button uk-width-1-1 uk-margin-small-bottom'>");
                             artistButton.append($("<span class='artist'>").append(artist["artist_name"]));
                             artistButton.click(queryAuthorFun({
                                 'id': artist['artist_id'],
@@ -160,12 +160,12 @@ function queryText() {
 
                     if (songs.length > 0) {
                         var numSongs = songs.length;
-                        var songParagraph = $("<span></span>");
+                        var songParagraph = $("<div class='pb-song-column'></div>");
                         songParagraph.append("<h3>Songs</h3>");
                         for (var i = 0; i < numSongs; i++) {
                             var song = songs[i];
 
-                            var songButton = $("<button class='uk-button pb-result-item'>");
+                            var songButton = $("<button class='uk-button uk-width-1-1 uk-margin-small-bottom'>");
                             songButton.append($("<span class='song_title'>").append(song["song_title"]));
                             songButton.append($("<span class='song_artist'>").append(" (" + song["artist_name"] + ")"));
                             songButton.click(querySongFun(song['song_id']));

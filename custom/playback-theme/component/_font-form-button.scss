@@ -3,3 +3,12 @@
 body {
     font-family: 'Share Tech Mono', monospace;
 }
+
+.uk-form {
+    // Input Class
+    input[type] {
+        height: 50px;
+        // position
+        padding: 4px 10px;
+    }
+}
