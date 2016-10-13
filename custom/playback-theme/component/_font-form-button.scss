@@ -1,14 +1,40 @@
-@import 'https://fonts.googleapis.com/css?family=Anonymous+Pro:400,700';
+@import url('https://fonts.googleapis.com/css?family=Baloo+Da');
 
-body {
-    font-family: 'Share Tech Mono', monospace;
+body, html,p, h1, h2, h3 {
+    font-family: 'Baloo Da', cursive, monospace;
 }
 
+// input fild
 .uk-form {
     // Input Class
     input[type] {
         height: 50px;
         // position
         padding: 4px 10px;
+    }
+}
+
+// button default
+.uk-button {
+    // position
+    padding: 10px 20px;
+    margin-bottom: 10px;
+    // typo
+    font-size: 18px;
+    line-height: 30px;
+    &.pb-goodluck-btn {
+        //color
+        background-color: $pb-color-goodluck-btn;
+        border: 5px solid $pb-color-goodluck-btn-shadow;
+        // text
+        color: $pb-color-goodluck-btn-text;
+    }
+}
+
+.pb-artist-column,
+.pb-song-column,
+.pb-random-artist-column {
+	h3 {
+        color: #fff;
     }
 }

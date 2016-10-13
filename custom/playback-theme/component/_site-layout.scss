@@ -3,7 +3,11 @@ $pb-color-main: #19035a;
 $pb-color-artist-site: #4916bf;
 $pb-color-song-site: #8cce0f;
 
-html {
+$pb-color-goodluck-btn: #8cc14c;
+$pb-color-goodluck-btn-shadow: #5e9a16;
+$pb-color-goodluck-btn-text: #427109;
+
+html, body{
 	// still
 	background-color: $pb-color-main;
 }
@@ -13,11 +17,11 @@ html {
 	max-width: 600px;
 }
 
-.pb-artist-column, .pb-song-column {
+.pb-artist-column, .pb-song-column, .pb-random-artist-column {
 	padding: 10px
 }
 
-.pb-artist-column {
+.pb-artist-column, .pb-random-artist-column {
 	//still
 	background-color: $pb-color-artist-site;
 }

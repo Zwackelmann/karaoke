@@ -1,8 +1,9 @@
 @import "../../bower_components/uikit/scss/uikit-mixins.scss";
 @import "../../bower_components/uikit/scss/uikit.scss";
 // your custom code goes here, e.g. mixins, variables
+@import "component/_variables.scss";
 @import "component/_base.scss";
-@import "component/_font-form-button.scss";
 @import "component/_site-layout.scss";
+@import "component/_font-form-button.scss";
 
 @import "../../bower_components/uikit/scss/components/autocomplete.scss";

@@ -211,7 +211,7 @@ function update_random_artist_panel() {
             for(var i=0; i<numArtists; i++) {
                 var artist = artists[i];
 
-                var artistButton = $("<button class='uk-button result_item'>");
+                var artistButton = $("<button class='uk-button uk-width-1-1 uk-margin-small-bottom'>");
                 artistButton.append($("<span class='artist'>").append(artist["artist_name"]));
                 artistButton.click(queryAuthorFun({'id': artist['artist_id'], 'name': artist['artist_name']}));
                 randomArtistsDiv.append(artistButton);
